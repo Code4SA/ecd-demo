@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="leaflet.css" />
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <style>
+    #map { 
+        height: 500px; width: 500px; 
+        float: left;
+    }
+
+    .photo {
+        float: left;
+        margin-left: 10px;
+        border: solid thin black;
+        width:240px; height:180px;
+    }
+
+    #heading {
+        text-align: center;
+        color: #333;
+    }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="heading"><span></span></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-6">
+                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                    <li class="active"><a href="#home" data-toggle="tab">General</a></li>
+                    <li><a href="#photos" data-toggle="tab">Photos</a></li>
+                    <li><a href="#registration" data-toggle="tab">Registration</a></li>
+                    <li><a href="#children" data-toggle="tab">Children</a></li>
+                    <li><a href="#health" data-toggle="tab">Health</a></li>
+                    <li><a href="#social_development" data-toggle="tab">Social Development</a></li>
+                    <li><a href="#finances" data-toggle="tab">Finances</a></li>
+                    <li><a href="#expenses" data-toggle="tab">Monthly Expenses</a></li>
+                    <li><a href="#income" data-toggle="tab">Monthly Income</a></li>
+                </ul>
+                <div id="my-tab-content" class="tab-content">
+                    <div class="tab-pane active" id="home">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Municipality</td>
+                                <td><span id="local_municipality"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Type of Area</td>
+                                <td><span id="type_of_area"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Nearest Primary School</td>
+                                <td><span id="nearest_school"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Nearest Clinic</td>
+                                <td><span id="nearest_clinic"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Days of Operation</td>
+                                <td><span id="days_of_operation"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Hours of Operation</td>
+                                <td><span id=""></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="photos">
+                    </div>
+                    <div class="tab-pane" id="registration">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Registration Funding Status</td>
+                                <td><span id="registration_funding_status"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Site Registration No.</td>
+                                <td><span id="site_registration_no"></span></td>
+                            </tr>
+                            <tr>
+                                <td>NPO Number</td>
+                                <td><span id="npo_no"></span><span id="npo_link"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Year of Registration</td>
+                                <td><span id="year_of_registration"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Reason for Conditional Registration</td>
+                                <td><span id="reason_for_conditional_registration"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Apply for Registration</td>
+                                <td><span id="apply_for_registration"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="children">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Children Accommodated</td>
+                                <td><span id="children_accommodated"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Capacity</td>
+                                <td><span id="health_environmental_certificate_centre_capacity"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="health">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Health Environmental Certificate</td>
+                                <td><span id="health_environmental_certificate"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Certificate capacity</td>
+                                <td><span id="health_environmental_certificate_centre_capacity"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Valid health certificate</td>
+                                <td><span id="valid_health_certificate"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="social_development">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Receives DSD subsidy</td>
+                                <td><span id="receives_dsd_subsidy"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Subsidy Amount</td>
+                                <td><span id="dsd_subsidy_monthly_amount_per_child"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="finances">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Has Bank Account</td>
+                                <td><span id="have_bank_account"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Income/Expenditure Book</td>
+                                <td><span id="finance_income_expenditure_book"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Finance Budget</td>
+                                <td><span id="finance_budget"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Finance Fees Register</td>
+                                <td><span id="finance_fees_register"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Finance Fees Receipts</td>
+                                <td><span id="finance_fees_receipts"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Subsidy per child</td>
+                                <td><span id="dsd_subsidy_monthly_amount_per_child"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="expenses">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Food</td>
+                                <td><span id="monthly_expenses_food"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Salaries</td>
+                                <td><span id="monthly_expenses_salaries"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Rent</td>
+                                <td><span id="monthly_expenses_rent"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Child Teacher Materials</td>
+                                <td><span id="monthly_expenses_child_teacher_materials"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Heating/Lighting</td>
+                                <td><span id="monthly_expenses_lighting_heating"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Transport/Lighting</td>
+                                <td><span id="monthly_expenses_transport"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Maintenance of Infrastructure</td>
+                                <td><span id="monthly_expenses_maintenance_infrastructure"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Other</td>
+                                <td><span id="monthly_expenses_other"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="income">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Fees</td>
+                                <td><span id="monthly_income_fees"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Subsidies</td>
+                                <td><span id="monthly_income_subsidies"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Donations</td>
+                                <td><span id="monthly_income_donations"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Fund Raising</td>
+                                <td><span id="monthly_income_fund_raising"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Lotto</td>
+                                <td><span id="monthly_income_lotto"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Other</td>
+                                <td><span id="monthly_income_other"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="leaflet.js"></script>
+    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="bootstrap.min.js" charset="utf-8"></script>
+
+    <script>
+    var map = L.map('map').setView([-30.569119, 30.333714], 8);
+
+    var layer = L.tileLayer('http://{s}.tile.thunderforest.com/outdoors/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+    }).addTo(map);
+
+    d3.csv("data.csv")
+        .row(function(d) {
+            if (d["lng"] != "" && d["lat"] != "") {
+                var marker = L.circleMarker([d["lat"], d["lng"]], {"radius":"5", "fillOpacity": 1.0}).addTo(map);
+                var photos = [
+                    "centre_photo", "daily_programme", "grade_r_structured_learning_daily_programme_photo", 
+                    "dangerous_obstacles", "daily_menu_photo", "roof", "cracks", "plumbing",
+                ];
+
+                marker.on("click", function() {
+                    d3.select("#heading span").text(d["name_of_site"]);
+                    d3.selectAll("#photos img").remove();
+                    d3.select("#photos")
+                        .selectAll("img")
+                        .data(photos)
+                        .enter()
+                        .append("img")
+                            .attr("src", function(el) {
+                                return "photos/" + el + "/" + d["ID"];
+                            })
+                            .classed("photo", true);
+                    d3.selectAll("img.photo").on("error", function(w) {
+                        d3.select(this).remove();
+                    });
+                    var fields = [
+                        // General
+                        "local_municipality", "type_of_area", "nearest_school", "nearest_clinic", "days_of_operation",
+
+                        // Registration
+                        "registration_funding_status", "site_registration_no", "npo_no", "year_of_registration", "reason_for_conditional_registration", "apply_for_registration",
+
+                        // Children
+                        "children_accommodated", 
+
+                        // Health
+                        "health_environmental_certificate_centre_capacity", "health_environmental_certificate", "valid_health_certificate",
+                        "receives_dsd_subsidy", "dsd_subsidy_monthly_amount_per_child",
+
+                        // Finances
+                        "dsd_subsidy_monthly_amount_per_child", "have_bank_account", "finance_income_expenditure_book",
+                        "finance_budget", "finance_fees_register", "finance_fees_receipts",
+
+                        // Expenses
+                        "monthly_expenses_food", "monthly_expenses_salaries", "monthly_expenses_rent",
+                        "monthly_expenses_child_teacher_materials", "monthly_expenses_lighting_heating", "monthly_expenses_transport",
+                        "monthly_expenses_maintenance_infrastructure", "monthly_expenses_other", 
+
+                        // Income
+                        "monthly_income_fees", "monthly_income_subsidies", "monthly_income_donations",
+                        "monthly_income_fund_raising", "monthly_income_lotto", "monthly_income_other"
+                    ];
+                        
+                    for (idx in fields) {
+                        var field_name = fields[idx];
+                        var value = d[field_name];
+                        d3.selectAll("#" + field_name).text(value);
+                    }
+
+                    d3.selectAll("#npo_link a").remove();
+                    var reg_no = d["npo_no"].replace(/[^0-9]/g, '');
+                    if (reg_no != "") {
+                        d3.select("#npo_link")
+                            .append("a")
+                            .attr("href", "http://www.npo.gov.za/PublicNpo/Npo/DetailsPublicDocs/" + reg_no)
+                            .text(" (NPO Register)");
+                    }
+                });
+            }
+        })
+        .get(function(d) {
+            console.log(d);
+        })
+
+    </script>
+</body>
+</html>
